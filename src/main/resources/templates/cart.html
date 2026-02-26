@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - Simple Shop</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-content">
+        <h1 class="logo">Simple Shop</h1>
+        <nav>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/cart}" class="active">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <h2>Your Cart</h2>
+    </section>
+
+    <section th:if="${#lists.isEmpty(cartItems)}">
+        <p>Your cart is empty.</p>
+        <p><a th:href="@{/products}" class="btn-outline">&larr; Continue shopping</a></p>
+    </section>
+
+    <section th:if="${!#lists.isEmpty(cartItems)}">
+        <table class="cart-table">
+            <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td>
+                    <span th:text="${item.product.name}">Product name</span>
+                </td>
+                <td th:text="${#numbers.formatDecimal(item.product.price, 1, 'POINT', 2, 'NONE')}">$0.00</td>
+                <td th:text="${item.quantity}">1</td>
+                <td th:text="${#numbers.formatDecimal(item.totalPrice, 1, 'POINT', 2, 'NONE')}">$0.00</td>
+                <td>
+                    <form method="post" th:action="@{/cart/remove}">
+                        <input type="hidden" name="productId" th:value="${item.product.id}">
+                        <button type="submit" class="btn-link">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <p><strong>Cart total:</strong>
+                <span th:text="${#numbers.formatDecimal(total, 1, 'POINT', 2, 'NONE')}">$0.00</span>
+            </p>
+            <div class="cart-actions">
+                <a th:href="@{/products}" class="btn-outline">&larr; Continue shopping</a>
+                <a th:href="@{/checkout}" class="btn-primary">Proceed to checkout</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Simple Shop &mdash; Spring Boot learning project</p>
+    </div>
+</footer>
+</body>
+</html>
+

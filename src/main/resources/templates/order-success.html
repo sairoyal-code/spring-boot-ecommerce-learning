@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order placed - Simple Shop</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-content">
+        <h1 class="logo">Simple Shop</h1>
+        <nav>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/cart}">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <h2>Order placed</h2>
+    </section>
+
+    <section class="success-message">
+        <p th:text="${message}">Your order has been placed.</p>
+        <p>This is a demo checkout, so nothing was actually ordered.</p>
+        <p><a th:href="@{/products}" class="btn-primary">Back to products</a></p>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Simple Shop &mdash; Spring Boot learning project</p>
+    </div>
+</footer>
+</body>
+</html>
+

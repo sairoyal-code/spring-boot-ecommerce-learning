@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Shop - Products</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-content">
+        <h1 class="logo">Simple Shop</h1>
+        <nav>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/cart}">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <h2>All Products</h2>
+        <div class="page-header-actions">
+            <form method="get" th:action="@{/products}" class="search-form">
+                <input type="text" name="keyword" placeholder="Search products"
+                       th:value="${keyword}">
+                <button type="submit">Search</button>
+            </form>
+            <a th:href="@{/products/new}" class="btn-primary">Add product</a>
+        </div>
+    </section>
+
+    <section class="product-grid" th:if="${#lists.isEmpty(products)}">
+        <p>No products found. Try a different search.</p>
+    </section>
+
+    <section class="product-grid" th:if="${!#lists.isEmpty(products)}">
+        <article class="product-card" th:each="product : ${products}">
+            <img th:src="${product.imageUrl}" alt="Product image">
+            <h3 th:text="${product.name}">Product name</h3>
+            <p class="product-category" th:text="${product.category}">Category</p>
+            <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 1, 'POINT', 2, 'NONE')}">$0.00</p>
+            <p class="product-description" th:text="${product.description}">Short description</p>
+            <div class="product-actions">
+                <a class="btn-outline" th:href="@{'/products/' + ${product.id}}">View details</a>
+                <form method="post" th:action="@{/cart/add}">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <button type="submit">Add to cart</button>
+                </form>
+            </div>
+        </article>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Simple Shop &mdash; Spring Boot learning project</p>
+    </div>
+</footer>
+</body>
+</html>
+

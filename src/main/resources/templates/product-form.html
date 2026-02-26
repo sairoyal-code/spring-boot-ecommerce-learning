@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add product - Simple Shop</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-content">
+        <h1 class="logo">Simple Shop</h1>
+        <nav>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/cart}">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <h2 th:text="${product.id} == null ? 'Add new product' : 'Edit product'">Add new product</h2>
+    </section>
+
+    <section class="form-card">
+        <form method="post" enctype="multipart/form-data"
+              th:action="${product.id} == null ? @{/products} : @{/products/update}"
+              th:object="${product}" class="product-form">
+            <input type="hidden" th:if="*{id} != null" th:field="*{id}">
+            <div class="form-row">
+                <label>
+                    Name
+                    <input type="text" th:field="*{name}" placeholder="Product name">
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    Description
+                    <input type="text" th:field="*{description}" placeholder="Short description">
+                </label>
+            </div>
+            <div class="form-row two-columns">
+                <label>
+                    Price
+                    <input type="number" step="0.01" min="0" th:field="*{price}" placeholder="0.00">
+                </label>
+                <label>
+                    Stock
+                    <input type="number" min="0" th:field="*{stock}" placeholder="0">
+                </label>
+            </div>
+            <div class="form-row two-columns">
+                <label>
+                    Category
+                    <input type="text" th:field="*{category}" placeholder="Category">
+                </label>
+                <label>
+                    Image path (optional)
+                    <input type="text" th:field="*{imageUrl}" placeholder="/uploads/example.jpg">
+                </label>
+            </div>
+            <div class="form-row">
+                <label>
+                    Or upload image file
+                    <input type="file" name="imageFile" accept="image/*">
+                </label>
+            </div>
+
+            <div class="form-actions">
+                <a th:href="@{/products}" class="btn-outline">Cancel</a>
+                <button type="submit" class="btn-primary">Save product</button>
+            </div>
+        </form>
+        <p class="form-help">
+            You can either type an existing image path (for example: <code>/uploads/example.jpg</code>)
+            or choose a file from your computer (for example from your Downloads folder). Uploaded files
+            are saved into a local <code>uploads/</code> folder and served as <code>/uploads/.../your-file-name</code>.
+        </p>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Simple Shop &mdash; Spring Boot learning project</p>
+    </div>
+</footer>
+</body>
+</html>
+

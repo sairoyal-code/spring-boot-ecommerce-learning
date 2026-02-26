@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Simple Shop</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-content">
+        <h1 class="logo">Simple Shop</h1>
+        <nav>
+            <a th:href="@{/products}">Products</a>
+            <a th:href="@{/cart}">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="page-header">
+        <h2>Checkout</h2>
+    </section>
+
+    <section th:if="${#lists.isEmpty(cartItems)}">
+        <p>Your cart is empty. Add some products before checking out.</p>
+        <p><a th:href="@{/products}" class="btn-outline">&larr; Back to products</a></p>
+    </section>
+
+    <section th:if="${!#lists.isEmpty(cartItems)}" class="checkout-layout">
+        <div class="checkout-summary">
+            <h3>Order summary</h3>
+            <ul>
+                <li th:each="item : ${cartItems}">
+                    <span th:text="${item.product.name}">Product</span>
+                    &times;
+                    <span th:text="${item.quantity}">1</span>
+                    &mdash;
+                    <span th:text="${#numbers.formatDecimal(item.totalPrice, 1, 'POINT', 2, 'NONE')}">$0.00</span>
+                </li>
+            </ul>
+            <p><strong>Total:</strong>
+                <span th:text="${#numbers.formatDecimal(total, 1, 'POINT', 2, 'NONE')}">$0.00</span>
+            </p>
+        </div>
+
+        <div class="checkout-form">
+            <h3>Your details</h3>
+            <p>This is a fake form just for learning.</p>
+            <form method="post" th:action="@{/checkout/confirm}">
+                <label>
+                    Full name
+                    <input type="text" name="fullName" placeholder="John Doe">
+                </label>
+                <label>
+                    Address
+                    <input type="text" name="address" placeholder="123 Main Street">
+                </label>
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="you@example.com">
+                </label>
+                <button type="submit" class="btn-primary">Place order</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Simple Shop &mdash; Spring Boot learning project</p>
+    </div>
+</footer>
+</body>
+</html>
+
