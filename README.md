@@ -86,7 +86,8 @@ You can:
 
 No Spring Security is configured, so all pages are public to keep it simple while you are learning.
 
-## 📸 Screenshots
+## 📸 Application Preview
 
-![Home Page](screenshots/home.png)
+![E-Commerce Screenshot](screenshots/ecomss.png)
+
 
